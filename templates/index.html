@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AQI Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Air Quality Index (AQI) Prediction</h1>
+        
+        <!-- Form to input features with their full names and descriptions -->
+        <form action="/predict" method="POST">
+            <label for="pm25">PM2.5 (Particulate Matter ≤ 2.5 micrometers):</label>
+            <input type="text" id="pm25" name="pm25" required><br><br>
+
+            <label for="pm10">PM10 (Particulate Matter ≤ 10 micrometers):</label>
+            <input type="text" id="pm10" name="pm10" required><br><br>
+
+            <label for="nox">NOx (Nitrogen Oxides):</label>
+            <input type="text" id="nox" name="nox" required><br><br>
+
+            <label for="co">CO (Carbon Monoxide):</label>
+            <input type="text" id="co" name="co" required><br><br>
+
+            <label for="so2">SO2 (Sulfur Dioxide):</label>
+            <input type="text" id="so2" name="so2" required><br><br>
+
+            <button type="submit">Predict AQI</button>
+        </form>
+
+        {% if prediction_text %}
+            <div class="result">
+                <h2>{{ prediction_text }}</h2>
+                <p>{{ description }}</p>
+            </div>
+
+            <div class="pollution-level-chart">
+                <div class="level {{ 'good' if aqi <= 50 else 'satisfactory' if aqi <= 100 else 'moderate' if aqi <= 200 else 'poor' }}">
+                    <p>{{ level }}</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
